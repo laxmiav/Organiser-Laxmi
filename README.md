@@ -1,3 +1,3 @@
-# Ligne de commande et Markdown
+# Organiser
 
 Organizer is a Simple symfony project using Tailwind css.
