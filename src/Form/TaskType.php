@@ -16,8 +16,15 @@ class TaskType extends AbstractType
     {
         $builder
             ->add('name',TextType::class)
-            ->add('status',ChoiceType::class)
+            ->add('status',ChoiceType::class,[
+                'choices' => [
+                    'Standard Shipping' => 'standard',
+                    'Expedited Shipping' => 'expedited',
+                    'Priority Shipping' => 'priority',
+                ],
+            ])
             ->add('createdAt',DateType::class)
+            ->add('process',ChoiceType::class)
             ->add('deadline',DateType::class)
         ;
     }
