@@ -1,4 +1,21 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+        {{ form_row(form.name,{
+            'attr':{class :'form-control m-4 px-4 py-2 bg-gray-50 :'}
+        }) }}
+        {{ form_row(form.status,{
+            'attr':{class :'form-control m-4 px-4 py-2 bg-gray-50 :'}
+        }) }}
+         {{ form_row(form.createdAt,{
+            'attr':{class :'form-control m-4 px-4 py-2 bg-gray-50 :'}
+        }) }}
+        {{ form_row(form.process,{
+            'attr':{class :'form-control m-4 px-4 py-2 bg-gray-50 :'}
+        }) }}
+         {{ form_row(form.deadline,{
+            'attr':{class :'form-control m-4 px-4 py-2 bg-gray-50 :'}
+        }) }}
+         {{ form_row(form.category,{
+            'attr':{class :'form-control m-4 px-4 py-2 bg-gray-50 :'}
+        }) }}
+    <button class="w-full mt-5 mb-5 bg-teal-800 text-white py-2 rounded-md font-semibold tracking-tight">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Repository\CategoryRepository;
 use App\Repository\TaskRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/main", name="app_main", methods={"GET"})
      */
-    public function index(TaskRepository $taskRepository): Response
+    public function index(TaskRepository $taskRepository,CategoryRepository $categoryRepository): Response
     {
 
     
@@ -27,7 +28,8 @@ class TaskController extends AbstractController
         return $this->render('main/index.html.twig', [
             'tasks' => $taskRepository->findAllTodo('TODO'),
             'doing' => $taskRepository->findAllDoing('Doing'),
-            'done' => $taskRepository->findAllDone('Done')
+            'done' => $taskRepository->findAllDone('Done'),
+            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
