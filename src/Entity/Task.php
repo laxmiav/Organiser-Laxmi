@@ -42,6 +42,11 @@ class Task
      */
     private $process;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tasks")
+     */
+    private $category;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +108,18 @@ class Task
     public function setProcess(?string $process): self
     {
         $this->process = $process;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

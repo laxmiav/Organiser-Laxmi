@@ -73,4 +73,58 @@ class TaskRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findAllTodo($process)
+    {
+       $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT a 
+            FROM App\Entity\Task a
+           
+            
+            WHERE a.process like :process'
+             
+        )->setParameter('process', $process);
+     
+
+        return $query->getResult();
+
+    }  
+
+
+    public function findAllDoing($process)
+    {
+       $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT a 
+            FROM App\Entity\Task a
+           
+            
+            WHERE a.process like :process'
+             
+        )->setParameter('process', $process);
+     
+
+        return $query->getResult();
+
+    }   
+    public function findAllDone($process)
+    {
+       $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT a 
+            FROM App\Entity\Task a
+           
+            
+            WHERE a.process like :process'
+             
+             )->setParameter('process', $process);
+          
+
+
+        return $query->getResult();
+
+    } 
 }

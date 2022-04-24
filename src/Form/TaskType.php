@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Task;
+use App\Entity\Category;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -17,15 +19,38 @@ class TaskType extends AbstractType
         $builder
             ->add('name',TextType::class)
             ->add('status',ChoiceType::class,[
+                'label' => 'Priority:',
                 'choices' => [
-                    'Standard Shipping' => 'standard',
-                    'Expedited Shipping' => 'expedited',
-                    'Priority Shipping' => 'priority',
+                   
+                    'urgent' => 'urgent',
+                    'second-priority' => 'Second-priority',
+                    'relax' => 'relax',
                 ],
             ])
             ->add('createdAt',DateType::class)
-            ->add('process',ChoiceType::class)
-            ->add('deadline',DateType::class)
+
+            ->add('process',ChoiceType::class,[
+                'label' => 'Progress:',
+                'choices' => [
+                    'TODO' => 'TODO',
+                    'Doing' => 'Doing',
+                    'Done' => 'Done',
+                ],
+            ])
+            ->add('deadline',DateType::class,[
+                'label' => 'Deadline of your task:',
+               
+            ])
+            ->add('category', EntityType::class, [
+                    // looks for choices from this entity
+                    'class' => Category::class,
+                    'choice_label' => 'name',
+                    'label' => 'Your task depends on:',
+                    // used to render a select box, check boxes or radios
+                    'multiple' => true,
+                    'expanded' => false,
+    
+                ])
         ;
     }
 

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {# {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -18,21 +18,29 @@
         <link
 	href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
 	rel="stylesheet">
+  <link rel="icon" href="{{asset('images/favicon.png')}}">
     </head>
     <body>
     
-    <header class="w-full bg-teal-600 p-4 flex justify-between items-center">
+    <header class="w-full bg-teal-800 p-4 flex justify-between items-center">
         <nav class="flex items-center">
          
-         <img class="w-8 h-7 rounded-full" src="logo.jpg" />
-          <li class="text-white text-xl">Organiser</li>
+         <img class="w-10 h-10" src="{{asset('images/favicon.png')}}" />
+          <h1 class="text-white text-2xl shadow-xl">Organiser</h1>
          
         </nav>
 
-        <div class="w-8 h-8 flex justify-between items-center cursor-pointer">
+        
             
-          <img class="rounded-full" src="http://www.w3.org/2000/svg" />
-        </div>
+         <div class="flex p-3 text-white bg-red-500 rounded cursor-pointer text-center text-sm">
+            {% if app.user %}    
+              <button class="rounded inline-flex items-center">
+                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clipRule="evenodd" /></svg>
+                <span class="font-semibold"><a href="{{ path('app_logout') }}">Logout</a></span>
+              </button>
+              {% endif %}
+            </div>
+       
       </header>
       
       
