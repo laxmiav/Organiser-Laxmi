@@ -6,8 +6,9 @@
 
 ### Backend : PHP-Symfony-5.4,Mysql
 
-Features:
--User Registration and E-mail Verification
--Task Managament depends on their priority.
--Able to follow its process level
--Forget password option.
+1. Features:
+
+      - User Registration and E-mail Verification.
+      - Task Managament depends on their priority and category.
+      - Able to follow its process level.
+      - Forget password option.
