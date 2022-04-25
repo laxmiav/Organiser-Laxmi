@@ -50,13 +50,13 @@
                         <option class="text-sm text-indigo-800" value="{{ path('app_priority',{'priority': 'Relax'}) }}">Relax</option>
                     </select>
                     
-</div>
+ </div>
                     
                 </div>
                  <div class="sm:flex items-center justify-center">
                 
               <button onclick="popuphandler(true)" class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start    justify-start px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded">
-                    <p class="text-sm font-medium leading-none text-white"> <a href="{{ path('app_task_new') }}">Create new Task</a></p>
+                    <p class="text-sm font-medium leading-none text-white"><a href="{{ path('app_task_create') }}">Create new Task</a></p>
                 </button>
               </div>
             </div>
@@ -70,8 +70,8 @@
 
           <!--************************************** table******************************* -->
 <div class="flex flex-col items-center justify-between sm:flex-row">
-<div class=" m-2">
-  <h2 class=" border-4 bg-green-600 text-center">TO−DO</h2>
+<div class=" m-2 ">
+  <h2 class=" border-4 bg-green-600 text-center w-80">TO−DO</h2>
    {% for task in tasks %}
         <table class="w-80 border-collapse block md:table  m-2">
            
