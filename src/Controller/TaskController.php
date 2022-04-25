@@ -20,43 +20,44 @@ class TaskController extends AbstractController
     public function index(TaskRepository $taskRepository,CategoryRepository $categoryRepository): Response
     {
 
-    
-
-
-
-
         return $this->render('main/index.html.twig', [
-            'tasks' => $taskRepository->findAllTodo('TODO'),
-            'doing' => $taskRepository->findAllDoing('Doing'),
-            'done' => $taskRepository->findAllDone('Done'),
+            'tasks' => $taskRepository->findAllByprocess('TODO'),
+            'doing' => $taskRepository->findAllByprocess('Doing'),
+            'done' => $taskRepository->findAllByprocess('Done'),
             'categories' => $categoryRepository->findAll(),
         ]);
     }
 
-
-
-    /**
-     * @Route("/task/new", name="app_task_new", methods={"GET", "POST"})
+     /**
+     * @Route("task/category/{id}", name="app_categoryById", methods={"GET"})
      */
-    public function new(Request $request, TaskRepository $taskRepository): Response
+    public function catagoryList(int $id,TaskRepository $taskRepository,CategoryRepository $categoryRepository): Response
     {
-        $task = new Task();
-        $form = $this->createForm(TaskType::class, $task);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $taskRepository->add($task);
-            return $this->redirectToRoute('app_main', [], Response::HTTP_SEE_OTHER);
-        }
+        return $this->render('main/category.html.twig', [
+            'tasks' => $taskRepository->findAllByCategory('TODO',$id),
+            'doing' => $taskRepository->findAllByCategory('Doing',$id),
+            'done' => $taskRepository->findAllByCategory('Done',$id),
+            'categories' => $categoryRepository->findAll(),
+        ]);
+    }
+     /**
+     * @Route("task/{priority}", name="app_priority", methods={"GET"})
+     */
+    public function priorityList(string $priority,TaskRepository $taskRepository,CategoryRepository $categoryRepository): Response
+    {
 
-        return $this->renderForm('task/new.html.twig', [
-            'task' => $task,
-            'form' => $form,
+        return $this->render('main/category.html.twig', [
+            'tasks' => $taskRepository->findAllByPriority('TODO',$priority),
+            'doing' => $taskRepository->findAllByPriority('Doing', $priority),
+            'done' => $taskRepository->findAllByPriority('Done',$priority),
+            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
+   
     /**
-     * @Route("/task/{id}", name="app_task_show", methods={"GET"})
+     * @Route("task/{id}", name="app_task_show", methods={"GET"})
      */
     public function show(Task $task): Response
     {
@@ -66,7 +67,7 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/task/{id}/edit", name="app_task_edit", methods={"GET", "POST"})
+     * @Route("task/{id}/edit", name="app_task_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Task $task, TaskRepository $taskRepository): Response
     {
@@ -85,7 +86,7 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/task/{id}", name="app_task_delete", methods={"POST"})
+     * @Route("task/{id}/delete", name="app_task_delete", methods={"POST"})
      */
     public function delete(Request $request, Task $task, TaskRepository $taskRepository): Response
     {
@@ -95,4 +96,28 @@ class TaskController extends AbstractController
 
         return $this->redirectToRoute('app_main', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+
+     /**
+     * @Route("/task/create", name="app_task_new", methods={"GET", "POST"})
+     */
+    public function create(Request $request, TaskRepository $taskRepository): Response
+    {
+        $task = new Task();
+        $form = $this->createForm(TaskType::class, $task);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $taskRepository->add($task);
+            return $this->redirectToRoute('app_main', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('task/create.html.twig', [
+            'task' => $task,
+            'form' => $form,
+        ]);
+    }
+
 }

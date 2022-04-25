@@ -73,7 +73,9 @@ class TaskRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findAllTodo($process)
+
+    
+    public function findAllByprocess($process)
     {
        $entityManager = $this->getEntityManager();
 
@@ -92,35 +94,45 @@ class TaskRepository extends ServiceEntityRepository
     }  
 
 
-    public function findAllDoing($process)
+   
+    public function findAllByCategory($process,int $id)
     {
        $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
             'SELECT a 
             FROM App\Entity\Task a
+            JOIN a.category u
            
             
-            WHERE a.process like :process'
+            WHERE a.process like :process AND  u.id = :id'
              
-        )->setParameter('process', $process);
-     
+             )
+             ->setParameter('process', $process)
+             ->setParameter('id', $id);
+          
+
 
         return $query->getResult();
 
-    }   
-    public function findAllDone($process)
+    } 
+
+    public function findAllByPriority($process,string $priority)
     {
        $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
             'SELECT a 
             FROM App\Entity\Task a
+            JOIN a.category u
            
             
-            WHERE a.process like :process'
+            WHERE a.process like :process AND a.status like :priority'
              
-             )->setParameter('process', $process);
+             )
+             ->setParameter('process', $process)
+             
+             ->setParameter('priority', $priority);
           
 
 

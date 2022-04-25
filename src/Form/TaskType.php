@@ -27,7 +27,7 @@ class TaskType extends AbstractType
                 'choices' => [
                    
                     'urgent' => 'urgent',
-                    'second-priority' => 'Second-priority',
+                    'Second-priority' => 'secondpriority',
                     'relax' => 'relax',
                 ],
             ])
