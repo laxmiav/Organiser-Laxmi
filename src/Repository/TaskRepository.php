@@ -139,4 +139,32 @@ class TaskRepository extends ServiceEntityRepository
         return $query->getResult();
 
     } 
+
+
+    public function findAllByPriorityNCategory($process,int $id,string $priority)
+    {
+       $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT a 
+            FROM App\Entity\Task a
+            JOIN a.category u
+           
+            
+            WHERE a.process like :process 
+            AND  u.id = :id
+            AND a.status like :priority' 
+            
+             
+             )
+             ->setParameter('process', $process)
+             
+             ->setParameter('id', $id)
+             ->setParameter('priority', $priority);
+             
+
+
+        return $query->getResult();
+
+    } 
 }
