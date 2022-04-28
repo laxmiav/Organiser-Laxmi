@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
+use App\Repository\TaskRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,7 +76,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_category_delete", methods={"POST"})
+     * @Route("/{id}/delete", name="app_category_delete", methods={"POST"})
      */
     public function delete(Request $request, Category $category, CategoryRepository $categoryRepository): Response
     {
@@ -84,5 +85,28 @@ class CategoryController extends AbstractController
         }
 
         return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+      
+    /**
+     * @Route("/mycategory/{categoryid}", name="app_categoryById", methods={"GET"})
+     */
+    public function catagoryList(int $categoryid,TaskRepository $taskRepository,CategoryRepository $categoryRepository): Response
+    {
+
+        $allcategories = $categoryRepository->findAll();
+
+
+
+
+        return $this->render('main/category.html.twig', [
+            
+            'tasks' => $taskRepository->findAllByCategory('TODO',$categoryid),
+            'doing' => $taskRepository->findAllByCategory('Doing',$categoryid),
+            'done' => $taskRepository->findAllByCategory('Done',$categoryid),
+            'categories' => $allcategories,
+            'mycategory' => $categoryRepository->find($categoryid),
+            
+        ]);
     }
 }

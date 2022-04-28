@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello Category!!{% endblock %}
+{% block title %}Hello MainController!{% endblock %}
 
 {% block body %}
  <main class="flex w-full h-screen">
@@ -11,7 +11,7 @@
               <div class="bg-teal-900 text-white p-5 rounded cursor-pointer">Hello {{ app.user.Fullname ??"" }}!!</div>
                <div class="bg-teal-700 text-blue-300 p-2 rounded mt-2 cursor-pointer"><a href="{{ path('app_main') }}">All</a></div>
               {% for category in categories %}
-              <div class="bg-teal-900 text-white p-2 rounded mt-2 cursor-pointer hover:bg-teal-700 hover:text-blue-300"><a href="{{ path('app_categoryById', {'id': category.id}) }}">
+              <div class="bg-teal-900 text-white p-2 rounded mt-2 cursor-pointer hover:bg-teal-700 hover:text-blue-300"><a href="{{ path('app_categoryById', {'categoryid': category.id}) }}">
             {{ category.name }}</a></div>
              {% endfor %}
                <div class="bg-teal-700 text-blue-300 p-2 rounded mt-2 cursor-pointer"><a href="{{ path('app_category_new') }}">Add new category +</a></div>
@@ -30,31 +30,35 @@
             <div class="flex items-center flex-col justify-between ">
                <div class="py-3 px-4 m-2 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded sm:hidden">
                     <p>Hello {{ app.user.Fullname ??"" }}!!</p>
-                    <select aria-label="select" class="focus:text-indigo-600 focus:outline-none bg-transparent ml-1">
-                        <option class="text-sm text-indigo-800">Family</option>
-                        <option class="text-sm text-indigo-800">Personnel</option>
-                        <option class="text-sm text-indigo-800">Friends</option>
-                         <option class="text-sm text-indigo-800">Professionel</option>
-                        <option class="text-sm text-indigo-800">others</option>
+                      <select aria-label="select" class="focus:text-indigo-600 focus:outline-none bg-transparent ml-1" onchange="location = this.value;">
+                    <option class="text-sm text-indigo-800" value=""></option>
+                    <option class="text-sm text-indigo-800" value="{{ path('app_main') }}">All</option>
+                     {% for category in categories %}
+                        <option class="text-sm text-indigo-800" value="{{ path('app_categoryById', {'categoryid': category.id}) }}"> {{ category.name }}</option>
+                        
                        
+                        
+                        {% endfor %}
+                        <option class="text-sm text-indigo-800" value="{{ path('app_category_new') }}">ADD NEW +</option>
                     </select>
                 </div>
                 <div class="py-3 px-4 m-2 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
                     <p>Sort By:</p>
-                    <select aria-label="select" class="focus:text-indigo-600 focus:outline-none bg-transparent ml-1" onchange="location = this.value;">
-                        <option class="text-sm text-indigo-800">All</option>
-                        <option class="text-sm text-indigo-800" value="{{ path('app_priority_category',{'id': category.id},{'priority': 'Urgent'}) }}">Urgent</option>
-                        <option class="text-sm text-indigo-800">Second-Priority</option>
-                        <option class="text-sm text-indigo-800">Relax</option>
-                    </select>
-                </div>
-                <div class="py-3 px-4 m-2 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
-                <p>Tasks related to {{ category.name ?? ""}} </p>
+                     <button class="bg-indigo-600 p-2 m-2 text-white rounded-xl clicked:bg-red-800">All</button>
+                    <button class="bg-indigo-600 p-2 m-2 text-white rounded-xl clicked:bg-red-800"id ="urgent">urgent</button>
+                    <button class="bg-indigo-600 p-2 m-2 text-white rounded-xl"id ="normal"> Normal</button>
+                    <button class="bg-indigo-600 p-2 m-2 text-white rounded-xl"id ="relax">Relax </button>
+                 </div>
+                 <div class="py-3 px-4 m-2 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
+                    <p>Tasks Realted to {{ mycategory.name ?? '' }} </p>
+                   
+                 </div>
+                    
                 </div>
                  <div class="sm:flex items-center justify-center">
                 
               <button onclick="popuphandler(true)" class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start    justify-start px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded">
-                    <p class="text-sm font-medium leading-none text-white"> <a href="{{ path('app_task_create') }}">Create new Task</a></p>
+                    <p class="text-sm font-medium leading-none text-white"><a href="{{ path('app_task_create') }}">Create new Task</a></p>
                 </button>
               </div>
             </div>
@@ -68,9 +72,10 @@
 
           <!--************************************** table******************************* -->
 <div class="flex flex-col items-center justify-between sm:flex-row">
-<div class=" m-2">
-  <h2 class=" border-4 bg-green-600 text-center">TO−DO</h2>
+<div class=" m-2 ">
+  <h2 class=" border-4 bg-green-600 text-center w-80">TO−DO</h2>
    {% for task in tasks %}
+            <div class=" {{ task.status ?? '' }} ">
         <table class="w-80 border-collapse block md:table  m-2">
            
             <tbody class="block md:table-row-group">
@@ -79,14 +84,14 @@
                     <td class="p-2 md:border md:border-grey-500 text-left block "><span class="inline-block w-1/3 md:hidden font-bold">Task</span>{{ task.name }}</td>
                     </tr> 
                     <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell hidden sm:block">Started at</th>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Started at</span>{{ task.createdAt ? task.createdAt|date('Y-m-d') : '' }}</td>
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell hidden sm:block">Started</th>
+                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Started</span>{{ task.createdAt ? task.createdAt|date('d-m-Y') : '' }}</td>
                     </tr>
                     <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell hidden sm:block">Deadline</th>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Deadline</span>{{ task.deadline ? task.deadline|date('Y-m-d') : '' }}</td>
+                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Deadline</span>{{ task.deadline ? task.deadline|date('d-m-Y') : '' }}</td>
                     </tr>
-                    <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
+                     <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell hidden sm:block">Priority</th>
                     <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Priority</span>{{ task.status ?? '' }}</td>
                     </tr>
@@ -97,9 +102,7 @@
                         <span class="inline-block w-1/3 md:hidden font-bold">Actions</span>
                       
                         
-							<a href="#" class="text-white-400 hover:text-white-100 mr-2">
-								<i class="material-icons-outlined text-base">visibility</i>
-							</a>
+							
 							<a href="{{ path('app_task_edit', {'id': task.id}) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded text-gray-400 hover:text-gray-100  mx-2">
 								<i class="material-icons-outlined text-base">edit</i>
 							</a>
@@ -118,14 +121,15 @@
                
            </tbody>
         </table>    
-            
-       
+          
+      
  </div>
 <div class=" m-2 ">
-        <h2 class=" border-4 bg-yellow-400 text-center">Doing</h2>
+        <h2 class=" border-4 bg-yellow-400 text-center w-80">Doing</h2>
         
             {% for doings in doing %}
-        <table class="w-80 border-collapse block md:table  m-2">
+            <div class=" {{ doings.status ?? '' }} ">
+        <table class="w-80 border-collapse block md:table m-2 ">
            
             <tbody class="block md:table-row-group">
                 <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
@@ -133,12 +137,12 @@
                     <td class="p-2 md:border md:border-grey-500 text-left block "><span class="inline-block w-1/3 md:hidden font-bold">Task</span>{{ doings.name }}</td>
                     </tr> 
                     <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell hidden sm:block">Started at</th>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Started at</span>{{ doings.createdAt ? doings.createdAt|date('Y-m-d') : '' }}</td>
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell hidden sm:block">Started </th>
+                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Started </span>{{ doings.createdAt ? doings.createdAt|date('d-m-Y') : '' }}</td>
                     </tr>
                     <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell hidden sm:block">Deadline</th>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Deadline</span>{{ doings.deadline ? doings.deadline|date('Y-m-d') : '' }}</td>
+                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Deadline</span>{{ doings.deadline ? doings.deadline|date('d-m-Y') : '' }}</td>
                     </tr>
                     <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell hidden sm:block">Priority</th>
@@ -151,9 +155,7 @@
                         <span class="inline-block w-1/3 md:hidden font-bold">Actions</span>
                       
                         
-							<a href="#" class="text-white-400 hover:text-white-100 mr-2">
-								<i class="material-icons-outlined text-base">visibility</i>
-							</a>
+							
 							<a href="{{ path('app_task_edit', {'id': doings.id}) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded text-gray-400 hover:text-gray-100  mx-2">
 								<i class="material-icons-outlined text-base">edit</i>
 							</a>
@@ -172,11 +174,12 @@
 
              </tbody>
         </table>
-       
+        </div>
 </div>
 <div class=" m-2 ">
-        <h2 class=" border-4 bg-red-600 text-center w-full">Done</h2>
+        <h2 class=" border-4 bg-red-600 text-center w-full w-80">Done</h2>
              {% for dones in done %}
+             <div class=" {{ dones.status ?? '' }} ">
         <table class="w-80 border-collapse block md:table  m-2">
            
             <tbody class="block md:table-row-group">
@@ -185,12 +188,12 @@
                     <td class="p-2 md:border md:border-grey-500 text-left block "><span class="inline-block w-1/3 md:hidden font-bold">Task</span>{{ dones.name }}</td>
                     </tr> 
                     <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
-                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell hidden sm:block">Started</th>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Started</span>{{ dones.createdAt ? dones.createdAt|date('Y-m-d') : '' }}</td>
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell hidden sm:block">Started </th>
+                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Started </span>{{ dones.createdAt ? dones.createdAt|date('d-m-Y') : '' }}</td>
                     </tr>
                     <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell hidden sm:block">Deadline</th>
-                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Deadline</span>{{ dones.deadline ? dones.deadline|date('Y-m-d') : '' }}</td>
+                    <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Deadline</span>{{ dones.deadline ? dones.deadline|date('d-m-Y') : '' }}</td>
                     </tr>
                     <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell hidden sm:block">Priority</th>
@@ -203,9 +206,7 @@
                         <span class="inline-block w-1/3 md:hidden font-bold">Actions</span>
                       
                         
-							<a href="#" class="text-white-400 hover:text-white-100 mr-2">
-								<i class="material-icons-outlined text-base">visibility</i>
-							</a>
+							
 							<a href="{{ path('app_task_edit', {'id': dones.id}) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded text-gray-400 hover:text-gray-100  mx-2">
 								<i class="material-icons-outlined text-base">edit</i>
 							</a>
@@ -224,6 +225,7 @@
 
              </tbody>
         </table>
+        </div>
 </div>
  </div>
  {# </div> #}

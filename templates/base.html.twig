@@ -16,6 +16,7 @@
         {% endblock %} #}
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+         <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"/>
         <link
 	href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
 	rel="stylesheet">
@@ -51,5 +52,97 @@
     
 
         {% block body %}{% endblock %}
+ 
+       
+
     </body>
 </html>
+
+  {% block javascripts %}
+ 
+ <script>
+{# for filtering urgent #}
+  const dropdownButton = document.querySelector("#urgent");
+  const dropdownList = document.querySelectorAll(".urgent");
+  console.log(dropdownButton);
+  console.log(dropdownList);
+{# dropdownButton.addEventListener("click", () => {
+  dropdownList.classList.toggle("hidden");
+}); #}
+{# console.log(dropdownList[0]);
+console.log(dropdownList[1]); #}
+  dropdownButton.addEventListener('click', function () {
+    
+    for (let a of dropdownList){
+    if (a.classList.contains('urgent')) {
+      a.classList.toggle('hidden');
+       
+    }}
+    
+    
+})
+
+{# for filtering priority #}
+{# for filtering normal #}
+  const dropdownButton = document.querySelector("#normal");
+  const dropdownList = document.querySelectorAll(".normal");
+  console.log(dropdownButton);
+  console.log(dropdownList);
+
+  dropdownButton.addEventListener('click', function () {
+    
+    for (let a of dropdownList){
+    if (a.classList.contains('normal')) {
+      a.classList.toggle('hidden');
+       
+    }}
+    
+    
+})
+
+{# for filtering normal #}
+
+{# for filtering relax #}
+  const dropdownButton = document.querySelector("#relax");
+  const dropdownList = document.querySelectorAll(".relax");
+  console.log(dropdownButton);
+  console.log(dropdownList);
+
+  dropdownButton.addEventListener('click', function () {
+    
+    for (let a of dropdownList){
+    if (a.classList.contains('relax')) {
+      a.classList.toggle('hidden');
+       
+    }}
+    
+    
+})
+
+{# for filtering relax #}
+{# for filtering All #}
+  const dropdownButton = document.querySelector("#all");
+  const dropdownList = document.querySelectorAll(".all");
+  console.log(dropdownButton);
+  console.log(dropdownList);
+
+  dropdownButton.addEventListener('click', function () {
+    
+    for (let a of dropdownList){
+    if (a.classList.contains('all')) {
+      a.classList.toggle('hidden');
+       
+    }}
+    
+    
+})
+
+{# for filtering All #}
+
+
+
+
+ 
+ </script>
+ 
+ {% endblock %}

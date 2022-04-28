@@ -36,52 +36,10 @@ class MainController extends AbstractController
         ]);
     }
 
-    
-    /**
-     * @Route("/main/task/category/{id}", name="app_categoryById", methods={"GET"})
-     */
-    public function catagoryList(int $id,TaskRepository $taskRepository,CategoryRepository $categoryRepository): Response
-    {
-
-        return $this->render('main/category.html.twig', [
-            'tasks' => $taskRepository->findAllByCategory('TODO',$id),
-            'doing' => $taskRepository->findAllByCategory('Doing',$id),
-            'done' => $taskRepository->findAllByCategory('Done',$id),
-            'categories' => $categoryRepository->findAll(),
-            'category' => $categoryRepository->find($id),
-        ]);
-    }
+  
      
     
-    /**
-     * @Route("/main/task/priority/{priority}", name="app_priority", methods={"GET"})
-     */
-    public function priorityList(string $priority,TaskRepository $taskRepository,CategoryRepository $categoryRepository): Response
-    {
-
-        return $this->render('main/category.html.twig', [
-            'tasks' => $taskRepository->findAllByPriority('TODO',$priority),
-            'doing' => $taskRepository->findAllByPriority('Doing', $priority),
-            'done' => $taskRepository->findAllByPriority('Done',$priority),
-            'categories' => $categoryRepository->findAll(),
-        ]);
-    }
-
-/**
-     * @Route("/priority/category/{id}/{priority}", name="app_priority_category", methods={"GET"})
-     */
-    public function priorityByCategory(int $id,string $priority,TaskRepository $taskRepository,CategoryRepository $categoryRepository): Response
-    {
-
-        return $this->render('main/category.html.twig', [
-            'tasks' => $taskRepository->findAllByPriorityNCategory('TODO',$id,$priority),
-            'doing' => $taskRepository->findAllByPriorityNCategory('Doing',$id,$priority,),
-            'done' => $taskRepository->findAllByPriorityNCategory('Done',$id,$priority,),
-            'categories' => $categoryRepository->findAll(),
-            'category' => $categoryRepository->find($id),
-        ]);
-    }
-
+   
 
 
 

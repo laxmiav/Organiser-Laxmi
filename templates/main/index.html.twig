@@ -11,7 +11,7 @@
               <div class="bg-teal-900 text-white p-5 rounded cursor-pointer">Hello {{ app.user.Fullname ??"" }}!!</div>
                <div class="bg-teal-700 text-blue-300 p-2 rounded mt-2 cursor-pointer"><a href="{{ path('app_main') }}">All</a></div>
               {% for category in categories %}
-              <div class="bg-teal-900 text-white p-2 rounded mt-2 cursor-pointer hover:bg-teal-700 hover:text-blue-300"><a href="{{ path('app_categoryById', {'id': category.id}) }}">
+              <div class="bg-teal-900 text-white p-2 rounded mt-2 cursor-pointer hover:bg-teal-700 hover:text-blue-300"><a href="{{ path('app_categoryById', {'categoryid': category.id}) }}">
             {{ category.name }}</a></div>
              {% endfor %}
                <div class="bg-teal-700 text-blue-300 p-2 rounded mt-2 cursor-pointer"><a href="{{ path('app_category_new') }}">Add new category +</a></div>
@@ -30,27 +30,31 @@
             <div class="flex items-center flex-col justify-between ">
                <div class="py-3 px-4 m-2 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded sm:hidden">
                     <p>Hello {{ app.user.Fullname ??"" }}!!</p>
-                    <select aria-label="select" class="focus:text-indigo-600 focus:outline-none bg-transparent ml-1">
-                        <option class="text-sm text-indigo-800">Family</option>
-                        <option class="text-sm text-indigo-800">Personnel</option>
-                        <option class="text-sm text-indigo-800">Friends</option>
-                         <option class="text-sm text-indigo-800">Professionel</option>
-                        <option class="text-sm text-indigo-800">others</option>
+                      <select aria-label="select" class="focus:text-indigo-600 focus:outline-none bg-transparent ml-1" onchange="location = this.value;">
+                    <option class="text-sm text-indigo-800" value=""></option>
+                    <option class="text-sm text-indigo-800" value="{{ path('app_main') }}">All</option>
+                     {% for category in categories %}
+                        <option class="text-sm text-indigo-800" value="{{ path('app_categoryById', {'categoryid': category.id}) }}"> {{ category.name }}</option>
+                        
                        
+                        
+                        {% endfor %}
+                        <option class="text-sm text-indigo-800" value="{{ path('app_category_new') }}">ADD NEW +</option>
                     </select>
                 </div>
                 <div class="py-3 px-4 m-2 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
                     <p>Sort By:</p>
                     
-                    <select aria-label="select" class="focus:text-indigo-600 focus:outline-none bg-transparent ml-1" onchange="location = this.value;">
-                        <option class="text-sm text-indigo-800" value="{{ path('app_main') }}">All</option>
-                        <option class="text-sm text-indigo-800" value="{{ path('app_priority',{'priority': 'Urgent'}) }}">Urgent</option>
-
-                        <option class="text-sm text-indigo-800" value="{{ path('app_priority',{'priority': 'secondpriority'}) }}">Second-Priority</option>
-                        <option class="text-sm text-indigo-800" value="{{ path('app_priority',{'priority': 'Relax'}) }}">Relax</option>
-                    </select>
                     
- </div>
+                      
+                    <button class="bg-indigo-600 p-2 m-2 text-white rounded-xl"><a href="{{ path('app_main') }}">All</a></button>
+                    <button class="bg-indigo-600 p-2 m-2 text-white rounded-xl"><a href="{{ path('app_priority',{'priority': 'Urgent'}) }}">urgent</a></button>
+                    <button class="bg-indigo-600 p-2 m-2 text-white rounded-xl"> <a href="{{ path('app_priority',{'priority': 'secondpriority'}) }}">Normal</a></button>
+                    <button class="bg-indigo-600 p-2 m-2 text-white rounded-xl"><a href="{{ path('app_priority',{'priority': 'relax'}) }}">Relax</a> </button>
+
+                   
+                    
+                 </div>
                     
                 </div>
                  <div class="sm:flex items-center justify-center">
@@ -99,9 +103,7 @@
                         <span class="inline-block w-1/3 md:hidden font-bold">Actions</span>
                       
                         
-							<a href="#" class="text-white-400 hover:text-white-100 mr-2">
-								<i class="material-icons-outlined text-base">visibility</i>
-							</a>
+							
 							<a href="{{ path('app_task_edit', {'id': task.id}) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded text-gray-400 hover:text-gray-100  mx-2">
 								<i class="material-icons-outlined text-base">edit</i>
 							</a>
@@ -124,7 +126,7 @@
        
  </div>
 <div class=" m-2 ">
-        <h2 class=" border-4 bg-yellow-400 text-center">Doing</h2>
+        <h2 class=" border-4 bg-yellow-400 text-center w-80">Doing</h2>
         
             {% for doings in doing %}
         <table class="w-80 border-collapse block md:table  m-2">
@@ -153,9 +155,7 @@
                         <span class="inline-block w-1/3 md:hidden font-bold">Actions</span>
                       
                         
-							<a href="#" class="text-white-400 hover:text-white-100 mr-2">
-								<i class="material-icons-outlined text-base">visibility</i>
-							</a>
+							
 							<a href="{{ path('app_task_edit', {'id': doings.id}) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded text-gray-400 hover:text-gray-100  mx-2">
 								<i class="material-icons-outlined text-base">edit</i>
 							</a>
@@ -177,7 +177,7 @@
        
 </div>
 <div class=" m-2 ">
-        <h2 class=" border-4 bg-red-600 text-center w-full">Done</h2>
+        <h2 class=" border-4 bg-red-600 text-center w-full w-80">Done</h2>
              {% for dones in done %}
         <table class="w-80 border-collapse block md:table  m-2">
            
@@ -205,9 +205,7 @@
                         <span class="inline-block w-1/3 md:hidden font-bold">Actions</span>
                       
                         
-							<a href="#" class="text-white-400 hover:text-white-100 mr-2">
-								<i class="material-icons-outlined text-base">visibility</i>
-							</a>
+							
 							<a href="{{ path('app_task_edit', {'id': dones.id}) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded text-gray-400 hover:text-gray-100  mx-2">
 								<i class="material-icons-outlined text-base">edit</i>
 							</a>

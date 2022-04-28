@@ -26,9 +26,9 @@ class TaskType extends AbstractType
                 'label' => 'Priority:',
                 'choices' => [
                    
-                    'urgent' => 'urgent',
-                    'Second-priority' => 'secondpriority',
-                    'relax' => 'relax',
+                    'Urgent' => 'urgent',
+                    'Normal' => 'normal',
+                    'Relax' => 'relax',
                 ],
             ])
             ->add('createdAt',DateType::class, [
